@@ -19,13 +19,15 @@ db_full <- db_full[,c(4:13)]
 head(db_full)
 head(be)
 head(comp)
-names(comp)[14] <- "range_be"
+comp <- comp[,c(1,14)]
+names(comp)[2] <- "range_be"
 
 
 sum(sort(unique(db_full$Species))!=sort(unique(be$Species))) #Verificando se existem typos
 sum(sort(unique(db_full$Species))!=sort(unique(list$Species))) #Verificando se existem typos
 sum(sort(unique(db$Species))!=sort(unique(be$Species))) #Verificando se existem typos
 sum(sort(unique(db$Species))!=sort(unique(list$Species))) #Verificando se existem typos
+sum(sort(unique(db_be$Species))!=sort(unique(list$Species))) #Verificando se existem typos
 
 ?merge
 db_be_full <- merge(db_full, list, by="Species") # add list info
@@ -46,15 +48,14 @@ new_recs <- db_be_full[db_be_full$New == "s",] #numero de records para especies 
 
 db_be <- merge(db, be, by="Species") #adiciona a info de BEs à base de dados
 head(db_be)
-sort(unique(db_be$BEs)) #verifica os BEs
-unique(db_be$Species[db_be$BEs=="4"]) #verifica as spp que compoem o BE "x"
 
 db_be <- merge(db_be, list, by="Species")
 head(db_be) #unique values, com alt, BEs e list
 str(db_be)
 
-db_be <- merge(db_be, comp, by="BEs")
-head(db_be) #unique values, com alt, BEs e list
+db_be2 <- merge(db_be, comp, by="BEs")
+head(db_be)
+str(db_be2)
 
 summary(db_be$alt) #verifica a classe de cada coluna no df
 #Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
