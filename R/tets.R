@@ -56,8 +56,6 @@ str(db_be)
 db_be <- merge(db_be, comp, by="BEs")
 head(db_be) #unique values, com alt, BEs e list
 
-?hist
-hist(db_be$alt) #mostra a distribuicao das frequencias de alt
 summary(db_be$alt) #verifica a classe de cada coluna no df
 #Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 #0.0   371.2   610.0   620.7   856.8  2067.0 
@@ -130,28 +128,7 @@ summary(lmm9)
 
 #Vetores com cores dos plots
 col_be <- c("grey","orange","purple","purple","black","blue","red","green","orange","orange","orange",
-            "orange", "orange", "black","blue","green","green", "green","green", "red","red","red") #organização 1 (wd, pt, rr)
-
-#col_be <- c("grey", "red", "green", "orange", "green", "red", "blue", "purple", "red", "orange","green",
-"red", "red", "orange", "blue", "orange", "blue", "purple", "purple", "green", "purple") #cores de todos os BEs
-
-col_res <- c("red", "green", "orange", "green", "red", "orange","green",
-             "red", "red", "blue", "orange", "blue", "purple", "purple", "purple") #cores apenas dos restricted
-
-col_wd <- c("orange", "purple", "darkgreen", "blue", "grey", "red") #cores apenas dos wide
-
-col_rg <- c("orange", "orange", "orange", "purple", "purple", "purple", 
-            "black", "darkgreen","darkgreen","darkgreen","blue","blue","red","red","red") #cores ordenadas por altitude
-
-range <- c("N", "w", "r", "r", "r", "r", "w", "w", "w", "r", "r", "r",
-           "r", "r", "w", "r", "r", "r", "r", "r", "w", "r") #range de todos os BEs + noise component
-
-seq <- seq(0, 22) #criando objeto para combinar cores e range do BE na base de dados
-
-col2 <- data.frame(seq, col_be, range) #combinando os vetores em um df
-
-scale_x_discrete(limits=c("0","2","3","10","15","19","20","22","21","11","7","6","18","13","4","8","14","16","17","1","12","5","9"))
-
+            "orange", "purple", "black","blue","green","green", "green","green", "red","red","red") #organização 1 (wd, pt, rr)
 #Graph one
 #Ultimo grafico atualizado com col_be (wd, pt rr)
 td <- ggplot(db_be, aes(x=BEs, y=alt)) +
@@ -167,9 +144,10 @@ td
 
 alt_graph <- td + geom_label(x=5, y=2000, label="Partial") + geom_label(x=14.5, y=2000, label="Restricted-Range")
 
-ggsave("test2.tiff",
+ggsave("test2.png",
        plot = alt_graph,
-       device = "tiff",
+       device = "png",
+       path = here("outputs", "images"),
        units = "mm",
        width = 110,
        height = 75,
