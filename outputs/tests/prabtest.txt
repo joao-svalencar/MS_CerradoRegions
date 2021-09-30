@@ -1,0 +1,10 @@
+* Parametric bootstrap test for presence-absence data *
+
+Test statistics:  distratio , Tuning constant= 0.25 
+Distance:  geco 
+Simulation runs:  1000 
+Disjunction parameter for presence-absence pattern:  0.2652163 
+Neighbor-based correction of region probabilities was used.
+Statistics value for original data:  0.3065131 
+Mean for null data:  0.3448914 , range:  0.3165379 0.3693593 
+p=  0.000999001 
