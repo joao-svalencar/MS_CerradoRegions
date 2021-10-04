@@ -6,6 +6,7 @@ library(prabclus)
 
 spp <- as.data.frame(rownames(mpa)) #indexes species list
 names(spp) <- 'binomial'
+head(spp)
 
 # checking proportion -----------------------------------------------------
 
@@ -34,7 +35,7 @@ capture.output(cdn.table, file = "cdn.csv")
 
 # hierarchical method clustering ------------------------------------------
 
-hclust <- hprabclust(x, cutdist=0.2, cutout=1, method="average", nnout=4, mdsplot=TRUE, mdsmethod="classical")
+hclust <- hprabclust(x, cutdist=0.15, cutout=1, method="average", nnout=2, mdsplot=TRUE, mdsmethod="classical")
 
 # processing data: creating table output ----------------------------------
 
@@ -43,6 +44,6 @@ BEs <- cbind(spp, hclust$rclustering) #combina lista de spp com BEs
 names(BEs) <- c("binomial", "BEs")
 table(BEs[2]) #to check Noise component and N of BEs
 
-write.csv(BEs, here("outputs", "tables", "n4_cd02.csv"), row.names = FALSE)
+write.csv(BEs, here("outputs", "tables", "n2_cd015.csv"), row.names = FALSE)
 
 # end ---------------------------------------------------------------------
