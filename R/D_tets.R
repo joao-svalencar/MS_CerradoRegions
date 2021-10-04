@@ -3,89 +3,108 @@ library(ggplot2)
 library(gridExtra)
 library(lme4)
 library(here)
+library(tidyr)
 
 list <- read.csv(here("data", "list.csv"))
-db <- read.csv(here("data", "baseunique_alt.csv"), stringsAsFactors=FALSE, fileEncoding="latin1")
-db_full <- read.csv(here("data", "BD_endemics.csv"), stringsAsFactors=FALSE, fileEncoding="latin1")
-be <- read.csv(here("outputs", "tables", "spp_hier_2_015.csv"))
-comp <- read.csv(here("outputs", "tables", "comp.csv"))
+#db <- read.csv(here("data", "baseunique_alt.csv"), stringsAsFactors=FALSE, fileEncoding="latin1")
+db_full <- read.csv(here("data", "BD_endemics.csv"), stringsAsFactors=FALSE)
+be <- read.csv(here("outputs", "tables", "n2_cd015.csv"))
+comp <- read.csv(here("outputs", "tables", "summary.csv"))
 
 head(list)
-list <- list[,c(1:3, 5:7, 11:12)]
-head(list)
-head(db)
-head(db_full) #já tem o alt
-db_full <- db_full[,c(4:13)]
 head(db_full)
 head(be)
 head(comp)
-comp <- comp[,c(1,14)]
-names(comp)[2] <- "range_be"
 
+sum(sort(unique(db_full$species))!=sort(unique(be$species))) #checking for typos
+sum(sort(unique(db_full$species))!=sort(unique(list$species))) ##checking for typos
 
-sum(sort(unique(db_full$Species))!=sort(unique(be$Species))) #Verificando se existem typos
-sum(sort(unique(db_full$Species))!=sort(unique(list$Species))) #Verificando se existem typos
-sum(sort(unique(db$Species))!=sort(unique(be$Species))) #Verificando se existem typos
-sum(sort(unique(db$Species))!=sort(unique(list$Species))) #Verificando se existem typos
-sum(sort(unique(db_be$Species))!=sort(unique(list$Species))) #Verificando se existem typos
+#in the case of typos positive:
+#unique(db_full$species)[which(sort(unique(db_full$species))!=sort(unique(be$species)))] #checking which are the typos
 
 ?merge
-db_be_full <- merge(db_full, list, by="Species") # add list info
+db_be_full <- merge(db_full, list, by="species") # add list info
 head(db_be_full) #full database com list
 
-db_be_full <- merge(db_be_full, be, by="Species") # add be info
+db_be_full <- merge(db_be_full, be, by="species") # add be info
 head(db_be_full) #full database com list and be info
 
-summary(db_be_full$alt)
-#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#0     372     610     606     810    2067
+summary(db_be_full$elevation) #summary with full database (repeated elevation data for especimens from the same location)
+#Min. 1st Qu.  Median    Mean   3rd Qu.    Max. 
+#0     375      610      609.9   823      2067
 
-table(db_be_full$class) #numero de registros por classe
+table(list$class) #number of species per class
+#Amphibians       Aves    Lizards    Mammals     Snakes 
+#124               45         66         42         63
+
+#increase in relation to Azevedo et al 2016 (216 species):
+340/216
+
+table(db_be_full$class) #number of records per class
 #Amphibians         Aves      Lizards      Mammals       Snakes
-#     3084          6458         2738          840        10834
+#     3074          6423         2738          840        10228
 
-new_recs <- db_be_full[db_be_full$New == "s",] #numero de records para especies novas na análise 9333
+new_recs <- db_be_full[db_be_full$New == "s",] #numero de records para especies novas na análise 9,416
 
-db_be <- merge(db, be, by="Species") #adiciona a info de BEs à base de dados
-head(db_be)
+# Extracting unique records -----------------------------------------------
 
-db_be <- merge(db_be, list, by="Species")
-head(db_be) #unique values, com alt, BEs e list
-str(db_be)
+head(db_be_full)
+db <- db_be_full[, c(1, 8:10)] #selecting required fields
+head(db)
 
-db_be2 <- merge(db_be, comp, by="BEs")
-head(db_be)
-str(db_be2)
+db$unique <- paste(db$species, db$latitude, db$longitude, db$elevation, sep=",") #combining spp name and coordinates
 
-summary(db_be$alt) #verifica a classe de cada coluna no df
+head(db) #checking the dataframe
+
+uniquerec <- data.frame(unique(db$unique)) #selecting unique combinations of spp names and coordinates
+
+head(uniquerec)
+
+db_unique <- tidyr::separate(data=uniquerec, col="unique.db.unique.", into=c("species", "latitude", "longitude", "elevation"), sep=",") #separating spp name from coordinates into a unique records dataframe
+
+head(db_unique) #checking the resulting dataframe
+str(db_unique)
+
+db_unique$elevation <- as.numeric(db_unique$elevation)
+
+summary(db_unique$elevation) #summary with unique records
 #Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#0.0   371.2   610.0   620.7   856.8  2067.0 
+#0.0   376.0   611.0   624.6   861.0  2067.0 
+
+# merging necessary fields to unique records dataframe --------------------
+
+db_be <- merge(db_unique, be, by="species") #add BEs info to dataframe
+head(db_be)
+
+db_be <- merge(db_be, list, by="species")
+head(db_be) #unique records, with elevation, BEs and list information
+
+comp <- comp[, c(1, 14)]
+head(comp)
+
+db_be <- merge(db_be, comp, by="BEs") #combine with info or BE range classification AND REMOVE NOISE COMPONENT SPECIES RECORDS
+head(db_be)
 
 str(db_be)
+
 db_be$BEs <- as.factor(db_be$BEs) #transforma BEs em fatores
+db_be$BEs <- relevel(db_be$BEs, "2") #transforma BE 2 (widespread) como nível basal dos fatores
 
-#db_be <- db_be[db_be$BEs!=0,] #REMOVE OS NOISE COMPONENT! Cai de 14,318 para 9,340 registros unicos
-#db_be$BEs <- relevel(db_be$BEs, "2") #transforma BE 2 (widespread) como nível basal dos fatores
+str(db_be)
 
-##### MODELOS #####
-mod1 <- lm(alt~BEs, data=db_be)
+# linear models -----------------------------------------------------------
+
+mod1 <- lm(elevation~BEs, data=db_be)
 summary(mod1)
-?par
-par(mfrow=c(2,2))
-plot(mod1)
+capture.output(summary(mod1), file = here("outputs", "tests", "elevation_all.txt"))
 
-mod2 <- lm(alt~BEs, data=db_be[db_be$range_be=="restricted",])
+mod2 <- lm(elevation~BEs, data=db_be[db_be$range_be=="restricted",])
 summary(mod2)
-?par
-par(mfrow=c(2,2))
-plot(mod2)
+capture.output(summary(mod2), file = here("outputs", "tests", "elevation_restricted.txt"))
 
+# modelos mistos ----------------------------------------------------------
 
-#glm1 <- glm(formula = alt ~ BEs, family = "poisson", data = db_be)
-#summary(glm1)
-#as.data.frame(exp(coef(glm1)))
-
-lmm <- lmer(formula = alt ~ BEs + (1|family/genus/Species), data = db_be)
+lmm <- lmer(formula = alt ~ BEs + (1|family/genus/species), data = db_be)
 summary(lmm)
 print(lmm)
 #Para o calculo de variação entre os efeitos aleatórios
@@ -93,12 +112,12 @@ vc <- c(60535, 29560) #Variance: c(Residual, Species:(genus:family), genus:famil
 vc <- 100*c(60535, 29560)/sum(vc)
 vc
 
-#lmm2 <- lmer(formula = alt ~ BEs + (1|genus/Species), data = db_be)
+#lmm2 <- lmer(formula = alt ~ BEs + (1|genus/species), data = db_be)
 #summary(lmm2)
 
 anova(lmm2, lmm, refit = FALSE) #significantivo, nao remover family
 
-lmm3 <- lmer(formula = alt ~ BEs + (1|family) + (1|Species), data = db_be)
+lmm3 <- lmer(formula = alt ~ BEs + (1|family) + (1|species), data = db_be)
 anova(lmm3, lmm, refit = FALSE) #nao significativo, podemos remover genus
 summary(lmm3) #eh o melhor
 
@@ -115,35 +134,26 @@ vc <- c(60525, 26385, 3986) #Variance: c(Residual, Species:(genus:family), genus
 vc <- 100*c(60525, 26385, 3986)/sum(vc)
 vc
 
-#testando outro pacote:
-library(nlme)
-lmm8 <- lme(alt~BEs, random= ~1|family/Species, data=db_be)
-summary(lmm8)
-
-lmm9 <- lme(alt~BEs, random= ~1|Species, data=db_be)
-summary(lmm9)
-
-
 # boxplot graph -----------------------------------------------------------
-
 
 #Vetores com cores dos plots
 col_be <- c("grey","orange","purple","purple","black","blue","red","green","orange","orange","orange",
             "orange", "purple", "black","blue","green","green", "green","green", "red","red","red") #organização 1 (wd, pt, rr)
 #Graph one
 #Ultimo grafico atualizado com col_be (wd, pt rr)
-td <- ggplot(db_be, aes(x=BEs, y=alt)) +
+td <- ggplot(db_be, aes(x=BEs, y=elevation, fill=range_be)) +
   labs(x= "Biotic Elements", y= "Elevation (m)")+
-  geom_boxplot(color=col_be)+
+  geom_boxplot()+
   scale_y_continuous(limits = c(0, 2000))+
-  scale_x_discrete(limits=c("2","20","19","22","21","3","10","15","7","11","6","18","13","4","17","8","14","16","12","9","1","5"))+
-  geom_hline(yintercept = 570)+
+  scale_x_discrete(limits=c("2","23","15","28","26","29","14","22","4","13","20","11","27","19", "10", "6","17","25","18","16","12","7","5","9","24","8","3","21","1"))+
+  geom_hline(yintercept = 592)+
   geom_vline(xintercept = 1.5, linetype=2)+
-  geom_vline(xintercept = 8.5, linetype=2)+
+  geom_vline(xintercept = 10.5, linetype=2)+
   theme_classic()
 td
 
-alt_graph <- td + geom_label(x=5, y=2000, label="Partial") + geom_label(x=14.5, y=2000, label="Restricted-Range")
+alt_graph <- td + geom_label(x=5, y=2000, label="Partial") + geom_label(x=19, y=2000, label="Restricted-Range")
+alt_graph
 
 ggsave("test2.png",
        plot = alt_graph,
