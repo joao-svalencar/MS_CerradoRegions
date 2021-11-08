@@ -66,17 +66,36 @@ saveRDS(object= test, file = here("outputs", "tests", "prabtest.rds"))
 ###########################################################################
 # processing data: preparing to test vicariance premisse number two -------
 ###########################################################################
+#BEs is an object from D_clustering.R
 
 BEs.no.noise <- BEs[BEs$BEs!=0,] # removing noise component
 head(BEs.no.noise)
-BEs.no.noise$species <- BEs.no.noise$binomial # duplicating species list
+BEs.no.noise$binomial <- BEs.no.noise$species # duplicating species list
 
-a <- separate(data=BEs.no.noise, col="species", into=c("genus", "species"), sep=" ") # breaking binomial
-head(a)
+a <- separate(data=BEs.no.noise, col="binomial", into=c("genus", "epithet"), sep=" ") # breaking binomial
+a <- merge(a, list, by="species")
+a <- a[,c(1:5)]
 
 # chi-square test for vicariance premisse number two ----------------------
 
-chisq <- comp.test(a$genus, a$BEs)
-capture.output(chisq, file = here("outputs", "tests", "chisq_dipsn_CA.txt"))
+chisq <- comp.test(a$genus.x, a$BEs)
+capture.output(chisq, file = here("outputs", "tests", "chisq_tet_genus.txt"))
+
+# chi-square test for the aggregation of terrestrial vetebrates cl --------
+
+chisq <- comp.test(a$class, a$BEs)
+capture.output(chisq, file = here("outputs", "tests", "chisq_tet_class.txt"))
+
+# chi-square test for the assignment to BEs or to Noise Component ---------
+
+classes <- c(0.364705882,	0.194117647,	0.185294118,	0.132352941,	0.123529412)
+noise <- c(0.291139241,	0.202531646,	0.221518987,	0.113924051,	0.170886076)
+wnBEs <- c(0.428571429,	0.186813187,	0.153846154,	0.148351648,	0.082417582)
+
+chisq <- comp.test(classes, noise)
+capture.output(chisq, file = here("outputs", "tests", "chisq_class_nc.txt"))
+
+chisq <- comp.test(classes, wnBEs)
+capture.output(chisq, file = here("outputs", "tests", "chisq_class_wnBE.txt"))
 
 # end ---------------------------------------------------------------------

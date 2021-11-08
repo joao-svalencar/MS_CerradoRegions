@@ -5,8 +5,6 @@ library(sf)
 library(rgdal)
 
 # reading processed data: cerrado endemic terrestrial vetebrates ----------
-
-
 # For Biotic Element Analysis ---------------------------------------------
 
 pa_table <- read.csv(here("data", "sppsample.csv"))
@@ -16,9 +14,8 @@ s <- readOGR(dsn=here("data", "shapes"), layer="Cerrado") #study area shapefile
 
 # For the linear model (elevation) ----------------------------------------
 list <- read.csv(here("data", "list.csv"))
-db <- read.csv(here("data", "baseunique_alt.csv"), stringsAsFactors=FALSE, fileEncoding="latin1")
-db_full <- read.csv(here("data", "BD_endemics.csv"), stringsAsFactors=FALSE, fileEncoding="latin1")
-be <- read.csv(here("outputs", "tables", "spp_hier_2_015.csv"))
-comp <- read.csv(here("outputs", "tables", "comp.csv"))
+db_full <- read.csv(here("data", "BD_endemics.csv"), stringsAsFactors=FALSE)
+be <- read.csv(here("outputs", "tables", "n2_cd015.csv")) #from D_clustering.R
+comp <- read.csv(here("outputs", "tables", "summary.csv"))
 
 # end ---------------------------------------------------------------------

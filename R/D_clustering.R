@@ -41,7 +41,7 @@ hclust <- hprabclust(x, cutdist=0.15, cutout=1, method="average", nnout=2, mdspl
 
 BEs <- cbind(spp, hclust$rclustering) #combina lista de spp com BEs
 
-names(BEs) <- c("binomial", "BEs")
+names(BEs) <- c("species", "BEs")
 table(BEs[2]) #to check Noise component and N of BEs
 
 write.csv(BEs, here("outputs", "tables", "n2_cd015.csv"), row.names = FALSE)

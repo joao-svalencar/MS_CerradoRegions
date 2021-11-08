@@ -5,16 +5,10 @@ library(lme4)
 library(here)
 library(tidyr)
 
-list <- read.csv(here("data", "list.csv"))
-#db <- read.csv(here("data", "baseunique_alt.csv"), stringsAsFactors=FALSE, fileEncoding="latin1")
-db_full <- read.csv(here("data", "BD_endemics.csv"), stringsAsFactors=FALSE)
-be <- read.csv(here("outputs", "tables", "n2_cd015.csv"))
-comp <- read.csv(here("outputs", "tables", "summary.csv"))
-
-head(list)
-head(db_full)
-head(be)
-head(comp)
+#list <- read.csv(here("data", "list.csv"))
+#db_full <- read.csv(here("data", "BD_endemics.csv"), stringsAsFactors=FALSE)
+#be <- read.csv(here("outputs", "tables", "n2_cd015.csv"))
+#comp <- read.csv(here("outputs", "tables", "summary.csv"))
 
 sum(sort(unique(db_full$species))!=sort(unique(be$species))) #checking for typos
 sum(sort(unique(db_full$species))!=sort(unique(list$species))) ##checking for typos
@@ -22,7 +16,6 @@ sum(sort(unique(db_full$species))!=sort(unique(list$species))) ##checking for ty
 #in the case of typos positive:
 #unique(db_full$species)[which(sort(unique(db_full$species))!=sort(unique(be$species)))] #checking which are the typos
 
-?merge
 db_be_full <- merge(db_full, list, by="species") # add list info
 head(db_be_full) #full database com list
 
@@ -101,38 +94,6 @@ capture.output(summary(mod1), file = here("outputs", "tests", "elevation_all.txt
 mod2 <- lm(elevation~BEs, data=db_be[db_be$range_be=="restricted",])
 summary(mod2)
 capture.output(summary(mod2), file = here("outputs", "tests", "elevation_restricted.txt"))
-
-# modelos mistos ----------------------------------------------------------
-
-lmm <- lmer(formula = alt ~ BEs + (1|family/genus/species), data = db_be)
-summary(lmm)
-print(lmm)
-#Para o calculo de variação entre os efeitos aleatórios
-vc <- c(60535, 29560) #Variance: c(Residual, Species:(genus:family), genus:family, family)
-vc <- 100*c(60535, 29560)/sum(vc)
-vc
-
-#lmm2 <- lmer(formula = alt ~ BEs + (1|genus/species), data = db_be)
-#summary(lmm2)
-
-anova(lmm2, lmm, refit = FALSE) #significantivo, nao remover family
-
-lmm3 <- lmer(formula = alt ~ BEs + (1|family) + (1|species), data = db_be)
-anova(lmm3, lmm, refit = FALSE) #nao significativo, podemos remover genus
-summary(lmm3) #eh o melhor
-
-lmm4 <- lmer(formula = alt ~ BEs + (1|Species), data = db_be)
-anova(lmm4, lmm3, refit = FALSE) #significativo, não remover family
-
-lmm5 <- lmer(formula = alt ~ BEs + (1|family), data = db_be)
-anova(lmm5, lmm3, refit = FALSE) #significativo, não remover species
-
-#Melhor modelo lmm3
-summary(lmm3)
-
-vc <- c(60525, 26385, 3986) #Variance: c(Residual, Species:(genus:family), genus:family, family)
-vc <- 100*c(60525, 26385, 3986)/sum(vc)
-vc
 
 # boxplot graph -----------------------------------------------------------
 
