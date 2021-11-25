@@ -5,11 +5,6 @@ library(lme4)
 library(here)
 library(tidyr)
 
-#list <- read.csv(here("data", "list.csv"))
-#db_full <- read.csv(here("data", "BD_endemics.csv"), stringsAsFactors=FALSE)
-#be <- read.csv(here("outputs", "tables", "n2_cd015.csv"))
-#comp <- read.csv(here("outputs", "tables", "summary.csv"))
-
 sum(sort(unique(db_full$species))!=sort(unique(be$species))) #checking for typos
 sum(sort(unique(db_full$species))!=sort(unique(list$species))) ##checking for typos
 
@@ -72,7 +67,7 @@ head(db_be)
 db_be <- merge(db_be, list, by="species")
 head(db_be) #unique records, with elevation, BEs and list information
 
-comp <- comp[, c(1, 14)]
+comp <- comp[, c(1, 14:16)]
 head(comp)
 
 db_be <- merge(db_be, comp, by="BEs") #combine with info or BE range classification AND REMOVE NOISE COMPONENT SPECIES RECORDS
@@ -82,8 +77,6 @@ str(db_be)
 
 db_be$BEs <- as.factor(db_be$BEs) #transforma BEs em fatores
 db_be$BEs <- relevel(db_be$BEs, "2") #transforma BE 2 (widespread) como nível basal dos fatores
-
-str(db_be)
 
 # linear models -----------------------------------------------------------
 
@@ -98,19 +91,31 @@ capture.output(summary(mod2), file = here("outputs", "tests", "elevation_restric
 # boxplot graph -----------------------------------------------------------
 
 #Vetores com cores dos plots
-col_be <- c("grey","orange","purple","purple","black","blue","red","green","orange","orange","orange",
-            "orange", "purple", "black","blue","green","green", "green","green", "red","red","red") #organização 1 (wd, pt, rr)
+col_be <- c("grey","orange","purple","purple","purple","grey","green","blue","blue","red",
+            "purple","purple","orange", "orange", "orange", "orange","orange","orange", "black","black", "brown","black","green","green","green","blue","blue","blue","red") #organização 1 (wd, pt, rr)
+
+remotes::install_github("coolbutuseless/ggpattern")
+library(ggpattern)
+
+
+ 
+  
+  
+  guides(pattern = guide_legend(override.aes = list(fill = "white")))
+
 #Graph one
 #Ultimo grafico atualizado com col_be (wd, pt rr)
-td <- ggplot(db_be, aes(x=BEs, y=elevation, fill=range_be)) +
+td <- ggplot(db_be, aes(x=BEs, y=elevation, fill=alt_class)) +
   labs(x= "Biotic Elements", y= "Elevation (m)")+
-  geom_boxplot()+
+  geom_boxplot(col=col_be)+
   scale_y_continuous(limits = c(0, 2000))+
-  scale_x_discrete(limits=c("2","23","15","28","26","29","14","22","4","13","20","11","27","19", "10", "6","17","25","18","16","12","7","5","9","24","8","3","21","1"))+
+  scale_fill_manual(values=c("white", "white", "lightgrey"), aesthetics = "fill")+
+  scale_x_discrete(limits=c("2","23","15","28","26","29","22","14","4","13","20","17","11","27","19", "10", "6","25","18","16","12","7","5","9","3","24","8","21","1"))+
   geom_hline(yintercept = 592)+
   geom_vline(xintercept = 1.5, linetype=2)+
   geom_vline(xintercept = 10.5, linetype=2)+
   theme_classic()
+
 td
 
 alt_graph <- td + geom_label(x=5, y=2000, label="Partial") + geom_label(x=19, y=2000, label="Restricted-Range")
