@@ -99,9 +99,15 @@ chisq <- chisq.test(classes, wnBEs)
 capture.output(chisq, file = here("outputs", "tests", "chisq_class_wnBE.txt"))
 
 # figuring out ------------------------------------------------------------
+#only RR
+plateau <- c(56, 16, 7, 6, 8) #Plateau spp
+depression <- c(7, 11, 5, 1, 5) #Depression spp
 
-p <- c(5, 51, 15, 10, 7) #Plateau?
-d <- c(5, 8, 12, 2, 8) #Depression?
-pd <- data.frame(p, d)
+#ALL units
+plateau <- c(59, 17, 15, 12, 8) #Plateau spp
+depression <- c(15, 13, 7, 4, 6) #Depression spp
+
+chisq <- chisq.test(plateau, depression)
+capture.output(chisq, file = here("outputs", "tests", "chisq_alt_sp.txt"))
 
 # end ---------------------------------------------------------------------

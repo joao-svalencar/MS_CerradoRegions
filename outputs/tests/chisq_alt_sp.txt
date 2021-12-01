@@ -1,0 +1,6 @@
+
+	Pearson's Chi-squared test
+
+data:  plateau and depression
+X-squared = 15, df = 12, p-value = 0.2414
+
