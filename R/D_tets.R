@@ -95,8 +95,6 @@ col_be <- c("grey","orange","purple","purple","purple","grey","green","blue","bl
             "purple","purple","orange", "orange", "orange", "orange","orange","orange", "black","black","black","brown","green","green","green","blue","blue","blue","red") #organização 1 (wd, pt, rr)
 
 
-
-
 #Graph one
 #Ultimo grafico atualizado com col_be (wd, pt rr)
 td <- ggplot(db_be, aes(x=BEs, y=elevation, fill=alt_class)) +
@@ -116,7 +114,7 @@ alt_graph <- td + geom_label(x=5, y=2000, label="Partial") + geom_label(x=19, y=
 alt_graph
 
 ggsave("test2.png",
-       plot = alt_graph,
+       plot = td,
        device = "png",
        path = here("outputs", "images"),
        units = "mm",
@@ -139,8 +137,21 @@ td <- ggplot(db_be) +
   geom_vline(xintercept = 1.5, linetype=2)+
   geom_vline(xintercept = 10.5, linetype=2)+
   theme_classic()+
-  theme(legend.position='none')
+  theme(legend.position='none', 
+        axis.title.x = element_text(size=8), 
+        axis.title.y = element_text(size=8),
+        axis.text.x = element_text(size=8), 
+        axis.text.y = element_text(size=8))
 td
 
 alt_graph <- td + geom_label(x=5, y=2000, label="Partial") + geom_label(x=19, y=2000, label="Restricted-Range")
 alt_graph
+
+ggsave("Fig 3.4.png",
+       plot = alt_graph,
+       device = "png",
+       path = here("outputs", "images"),
+       units = "mm",
+       width = 110,
+       height = 75,
+       dpi = 300)
