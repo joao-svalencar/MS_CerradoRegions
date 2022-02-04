@@ -1,7 +1,6 @@
 # reading libraries -------------------------------------------------------
 
 library(here)
-library(sf)
 library(rgdal)
 
 # reading processed data: cerrado endemic terrestrial vetebrates ----------

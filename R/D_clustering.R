@@ -1,7 +1,3 @@
-# reading libraries -------------------------------------------------------
-
-library(prabclus)
-
 # processing data: creating species list ----------------------------------
 
 spp <- as.data.frame(rownames(mpa)) #indexes species list
@@ -44,6 +40,6 @@ BEs <- cbind(spp, hclust$rclustering) #combina lista de spp com BEs
 names(BEs) <- c("species", "BEs")
 table(BEs[2]) #to check Noise component and N of BEs
 
-write.csv(BEs, here("outputs", "tables", "n2_cd015.csv"), row.names = FALSE)
+write.csv(BEs, here("outputs", "tables", "BEs.csv"), row.names = FALSE)
 
 # end ---------------------------------------------------------------------

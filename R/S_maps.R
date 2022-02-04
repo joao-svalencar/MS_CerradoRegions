@@ -3,8 +3,8 @@ library(devtools)
 
 # importing package from remote repository --------------------------------
 
-devtools::install_github("joao-svalencar/mapar", ref="main") # calls package
-
+devtools::install_github("joao-svalencar/mapar", ref="main", force=TRUE) # calls package
+library(mapar)
 # processing data: preparing objects to preview output --------------------
 
 # Not to run #
@@ -29,7 +29,7 @@ for(i in 1:length(unique(BEs[,2]))) # rename loop
 
 # creating summary figure output: output preview --------------------------
 
-units <- mapar(grid = dd, lsp = BEs, mpa = mpa, plot = TRUE, prop = TRUE, shp = s, nsp = 1) #saving individual shapefiles
+units <- mapar(grid = dd, lsp = BEs, mpa = mpa, plot = FALSE, prop = FALSE, shp = s, nsp = 1) #saving individual shapefiles
 units <- mapar(grid = dd, lsp = BEs, mpa = mpa, plot = FALSE, prop = TRUE, shp = s, nsp = 1, grp = TRUE) #saving unique shapefile
 
 # creating summary figure output: exporting -------------------------------

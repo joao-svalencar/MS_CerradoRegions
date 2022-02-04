@@ -1,7 +1,5 @@
 # reading libraries -------------------------------------------------------
 
-library(here)
-library(rgdal)
 library(spdep)
 library(prabclus)
 library(tidyverse)
@@ -64,7 +62,7 @@ capture.output(summary(test), file = here("outputs", "tests", "prabtest.txt"))
 saveRDS(object= test, file = here("outputs", "tests", "prabtest.rds"))
 
 ###########################################################################
-# processing data: preparing to test vicariance premisse number two -------
+# processing data: preparing to test vicariance premise number two -------
 ###########################################################################
 #BEs is an object from D_clustering.R
 
