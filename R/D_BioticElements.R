@@ -14,7 +14,7 @@ head(centro) #checking overall structure
 centro <- centro[, c(6,7)]
 
 head(pa_table) #checking overall structure
-pa_table <- pa_table[,c(4,14)]
+pa_table <- pa_table[,c(1,3)]
 names(pa_table) <- c("species", "sample")
 head(pa_table)
 
@@ -60,6 +60,8 @@ test <- prabtest(x, times=1000, pdfnb = TRUE) #prabtest started 30/09/2021 16:37
 summary(test)
 capture.output(summary(test), file = here("outputs", "tests", "prabtest.txt"))
 saveRDS(object= test, file = here("outputs", "tests", "prabtest.rds"))
+
+# Open D_clustering.R -----------------------------------------------------
 
 ###########################################################################
 # processing data: preparing to test vicariance premise number two -------

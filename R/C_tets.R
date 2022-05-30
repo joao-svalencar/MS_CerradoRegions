@@ -11,6 +11,8 @@ centro <- read.csv(here("data", "coords.csv"), header=TRUE)
 dd <- readOGR(dsn=here("data","shapes"), layer= ("grid_tet"))
 s <- readOGR(dsn=here("data", "shapes"), layer="Cerrado") #study area shapefile
 
+# Open D_BioticElements.R -------------------------------------------------
+
 # For the linear model (elevation) ----------------------------------------
 list <- read.csv(here("data", "list.csv"))
 db_full <- read.csv(here("data", "BD_endemics.csv"), stringsAsFactors=FALSE)

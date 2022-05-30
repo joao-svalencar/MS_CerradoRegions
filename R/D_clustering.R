@@ -1,3 +1,8 @@
+# Loading 'mapar' ---------------------------------------------------------
+#install.packages("devtools")
+#library(devtools)
+devtools::install_github("joao-svalencar/mapar", ref="main")
+
 # processing data: creating species list ----------------------------------
 
 spp <- as.data.frame(rownames(mpa)) #indexes species list
