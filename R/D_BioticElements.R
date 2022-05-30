@@ -13,9 +13,8 @@ library(tidyverse)
 head(centro) #checking overall structure
 centro <- centro[, c(6,7)]
 
-head(pa_table) #checking overall structure
-pa_table <- pa_table[,c(1,3)]
-names(pa_table) <- c("species", "sample")
+head(pa_sppsample) #checking overall structure
+pa_table <- pa_sppsample[,c(1,3)]
 head(pa_table)
 
 dim(centro)[1] #checking the number of centroids; should be equal to the number of grid cells in $sample above
