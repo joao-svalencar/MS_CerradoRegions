@@ -11,7 +11,7 @@ col_be <- c("grey","orange","purple","purple","purple","grey","green","blue","bl
 td <- ggplot(db_be) +
   geom_boxplot_pattern(
     aes(x=BEs, y=elevation, pattern=alt_class), col=col_be,
-    pattern_density=0.2, pattern_colour= 'black', pattern_spacing=0.01)+
+    pattern_density=0.2, pattern_colour= 'black', pattern_spacing=0.01, lwd=.3)+
   labs(x= "Biotic Elements", y= "Elevation (m)")+
   scale_y_continuous(limits = c(0, 2000))+
   scale_pattern_manual(values=c("none", "none", "circle"))+
@@ -21,20 +21,19 @@ td <- ggplot(db_be) +
   geom_vline(xintercept = 10.5, linetype=2)+
   theme_classic()+
   theme(legend.position='none', 
-        axis.title.x = element_text(size=8), 
-        axis.title.y = element_text(size=8),
-        axis.text.x = element_text(size=8), 
-        axis.text.y = element_text(size=8))
+        axis.title = element_text(size=10, margin = margin(t=0, r=0, b=0, l=0, unit="mm")), 
+        axis.text = element_text(size=8))
 td
 
-alt_graph <- td + geom_label(x=5, y=2000, label="Partial") + geom_label(x=19, y=2000, label="Restricted-Range")
+alt_graph <- td + geom_label(x=5, y=2000, label="Partial") + geom_label(x=19, y=2000, label="Restricted")
 alt_graph
 
-ggsave("Fig 3.png",
+ggsave("Fig 3_new.png",
+       device = png,
        plot = alt_graph,
-       device = "png",
-       path = here("outputs", "images"),
+       path = here("outputs", "figures"),
+       width = 168,
+       height = 84,
        units = "mm",
-       width = 110,
-       height = 75,
-       dpi = 300)
+       dpi = 300,
+       )
