@@ -1,10 +1,13 @@
-###################################### CALL THE MAPAR FUNCTION ######################################
+# Loading 'mapar' ---------------------------------------------------------
+
 library(devtools)
 
 # importing package from remote repository --------------------------------
 
 devtools::install_github("joao-svalencar/mapar", ref="main", force=TRUE) # calls package
 library(mapar)
+# ?mapar
+
 # processing data: preparing objects to preview output --------------------
 
 # Not to run #
@@ -14,8 +17,8 @@ library(mapar)
 # mpa # presence x absence matrix (with species names and gridcells id)
 
 # processing data: removing noise component species -----------------------
-#mpa <-as.matrix(table(pa_table$species, pa_table$sample)) #only if repeating
-#mpa <- 1*(mpa>0) #only if repeating
+#mpa <-as.matrix(table(pa_table$species, pa_table$sample)) #only if repeating with different cdn combinations
+#mpa <- 1*(mpa>0) #only if repeating with different cdn combinations
 
 mpa <- mpa[BEs[,1][BEs[,2]!=0],] #REMOVE NOISE COMPONENTS FROM MATRIX
 BEs <- BEs[BEs[2]!=0,] #REMOVE NOISE COMPONENTS FROM SPP/BEs LIST

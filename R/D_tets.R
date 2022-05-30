@@ -4,9 +4,13 @@ library(tidyr)
 
 sum(sort(unique(db_full$species))!=sort(unique(be$species))) #checking for typos
 sum(sort(unique(db_full$species))!=sort(unique(list$species))) ##checking for typos
+sum(sort(unique(db_unique$species))!=sort(unique(be$species))) #checking for typos
+sum(sort(unique(db_unique$species))!=sort(unique(list$species))) ##checking for typos
 
 #in the case of typos positive:
 #unique(db_full$species)[which(sort(unique(db_full$species))!=sort(unique(be$species)))] #checking which are the typos
+
+# Merging and exploring elevation_full ------------------------------------
 
 db_be_full <- merge(db_full, list, by="species") # add list info
 head(db_be_full) #full database com list
@@ -32,13 +36,7 @@ table(db_be_full$class) #number of records per class
 new_recs <- db_be_full[db_be_full$New == "s",] 
 length(new_recs[,1]) #new records added to the analysis = 9,416
 
-# On the unique records ---------------------------------------------------
-
-summary(db_unique$elevation) #summary with unique records
-#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#0.0   376.0   611.0   624.6   861.0  2067.0 
-
-# merging necessary fields to unique records dataframe --------------------
+# Merging and exploring elevation_unique ----------------------------------
 
 db_be <- merge(db_unique, list, by="species")
 head(db_be) #unique records, with elevation, BEs and list information
@@ -57,11 +55,19 @@ str(db_be)
 db_be$BEs <- as.factor(db_be$BEs) #BEs into factors
 db_be$BEs <- relevel(db_be$BEs, "2") #BE 2 (widespread) as basal level
 
+summary(db_unique$elevation) #summary with unique records
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#0.0   376.0   611.0   624.6   861.0  2067.0 
+
 # linear models -----------------------------------------------------------
+
+# mod1 - elevation_full ---------------------------------------------------
 
 mod1 <- lm(elevation~BEs, data=db_be) #basal level is BE 2 the widespread BE
 summary(mod1)
 capture.output(summary(mod1), file = here("outputs", "tests", "elevation_all.txt"))
+
+# mod2 - elevation_unique -------------------------------------------------
 
 mod2 <- lm(elevation~BEs, data=db_be[db_be$range_be=="restricted",]) #basal level is BE 1 the highest BE
 summary(mod2)

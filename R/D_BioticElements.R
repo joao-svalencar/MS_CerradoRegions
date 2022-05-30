@@ -13,9 +13,7 @@ library(tidyverse)
 head(centro) #checking overall structure
 centro <- centro[, c(6,7)]
 
-head(pa_sppsample) #checking overall structure
-pa_table <- pa_sppsample[,c(1,3)]
-head(pa_table)
+head(pa_table) #checking overall structure
 
 dim(centro)[1] #checking the number of centroids; should be equal to the number of grid cells in $sample above
 length(unique(pa_table$sample)) #checking the number of grid cells
@@ -28,6 +26,8 @@ length(unique(pa_table$species)) #checking the number of spp
 attach(pa_table)
 mpa <-as.matrix(table(pa_table$species, pa_table$sample))
 mpa <- 1*(mpa>0)
+
+# write.csv(mpa, here("outputs", "tables", "SuppInfo_S4_mpa.csv"), row.names = TRUE)
 
 U <- mpa
 colnames(U) <- NULL
@@ -49,16 +49,18 @@ class(ff)
 x <- prabinit(prabmatrix=U, rows.are.species=TRUE, neighborhood=nblist,
               geodist=ff, distance="geco", gtf=0.2)
 
-class(x) #prab object used in prabtest and cdn
+class(x) #prab object used in 'prabtest' and 'cdn'
 
 # prabtest ----------------------------------------------------------------
 
 set.seed(42)
-test <- prabtest(x, times=1000, pdfnb = TRUE) #prabtest started 30/09/2021 16:37/18:56
+test <- prabtest(x, times=1000, pdfnb = TRUE) # prabtest started 30/09/2021 16:37/18:56
 
+# test <- readRDS(here("outputs", "tests", "prabtest.rds")) # original result
 summary(test)
 capture.output(summary(test), file = here("outputs", "tests", "prabtest.txt"))
-saveRDS(object= test, file = here("outputs", "tests", "prabtest.rds"))
+
+# saveRDS(object= test, file = here("outputs", "tests", "prabtest.rds"))
 
 # Open D_clustering.R -----------------------------------------------------
 

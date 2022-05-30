@@ -30,7 +30,7 @@ td
 alt_graph <- td + geom_label(x=5, y=2000, label="Partial") + geom_label(x=19, y=2000, label="Restricted-Range")
 alt_graph
 
-ggsave("Fig 3.4.png",
+ggsave("Fig 3.png",
        plot = alt_graph,
        device = "png",
        path = here("outputs", "images"),
