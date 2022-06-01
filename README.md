@@ -6,6 +6,17 @@ Herein we include R scrips, raw-data and outputs of the paper. This repository w
 
 If you have any doubt, please contact JP Vieira-Alencar at: joaopaulo.valencar@gmail.com
 
-## The repository is organises as follow:
+## The repository is organized as follow:
+  - Folders:
+    -- R: 
+      --- C_tets.R: loading objects;
+      --- D_BioticElements.R: Biotic Elements Analyses. With tests for the first and second predictions of the vicariance model;
+      --- D_clustering.R: Using the 'cdn' function from package 'mapar' to choose clustering parameters;
+      --- D_tets.R: Exploring basic data and modeling elevation~BEs;
+      --- S_boxplot.R: Organizing data and creating Fig. 3 (elevation boxplot);
+      --- S_maps.R: Using the 'mapar' function from package 'mapar' to preview BEs outputs and export .shp files;
+      Start with script C_tets.R. Comments in the scripts indicates which script to open next.
+    --data:
+    --outputs:
 
 
