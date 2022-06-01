@@ -20,4 +20,5 @@ db_unique <- read.csv(here("data", "elevation_unique.csv"), stringsAsFactors=FAL
 be <- read.csv(here("outputs", "tables", "BEs.csv")) #from D_clustering.R
 comp <- read.csv(here("outputs", "tables", "summary.csv"))
 
+# Open D_tets.R
 # end ---------------------------------------------------------------------

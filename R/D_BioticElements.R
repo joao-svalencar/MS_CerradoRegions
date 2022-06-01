@@ -74,41 +74,29 @@ head(BEs.no.noise)
 BEs.no.noise$binomial <- BEs.no.noise$species # duplicating species list
 
 a <- separate(data=BEs.no.noise, col="binomial", into=c("genus", "epithet"), sep=" ") # breaking binomial
-a <- merge(a, list, by="species")
-a <- a[,c(1:5)]
 
 # chi-square test for vicariance premisse number two ----------------------
 set.seed(42)
 chisq <- comp.test(a$genus.x, a$BEs)
 capture.output(chisq, file = here("outputs", "tests", "chisq_tet_genus.txt"))
 
-# chi-square test for the aggregation of terrestrial vetebrates cl --------
-
-chisq <- comp.test(a$class, a$BEs)
-capture.output(chisq, file = here("outputs", "tests", "chisq_tet_class.txt"))
-
 # chi-square test for the assignment to BEs or to Noise Component ---------
+classes <- c(124,	66,	63,	45,	42) # number of species per vertebrate class
+noise <- c(46,	32,	35,	18,	27) # number of species per vertebrate class assigned to noise
+wnBEs <- c(78,	34,	28,	27,	15) # number of species per vertebrate class assigned to BEs
 
-classes <- c(124,	66,	63,	45,	42)
-noise <- c(46,	32,	35,	18,	27)
-wnBEs <- c(78,	34,	28,	27,	15)
-
-chisq <- chisq.test(classes, noise, simulate.p.value = TRUE)
+chisq <- chisq.test(classes, noise)
 capture.output(chisq, file = here("outputs", "tests", "chisq_class_nc.txt"))
 
 chisq <- chisq.test(classes, wnBEs)
 capture.output(chisq, file = here("outputs", "tests", "chisq_class_wnBE.txt"))
 
-# figuring out ------------------------------------------------------------
-#only RR
-plateau <- c(56, 16, 7, 6, 8) #Plateau spp
-depression <- c(7, 11, 5, 1, 5) #Depression spp
-
-#ALL units
-plateau <- c(59, 17, 15, 12, 8) #Plateau spp
-depression <- c(15, 13, 7, 4, 6) #Depression spp
+# Test for the aggregation of vertebrate classes in distinct elevation categories --------
+plateau <- c(56, 16, 7, 6, 8) #number of species per vertebrate class assigned to restricted plateau units
+depression <- c(7, 11, 5, 1, 5) #number of species per vertebrate class assigned to restricted depression units
 
 chisq <- chisq.test(plateau, depression)
 capture.output(chisq, file = here("outputs", "tests", "chisq_alt_sp.txt"))
 
+# Open C_tets.R and load the objects for the models of elevation
 # end ---------------------------------------------------------------------

@@ -4,7 +4,7 @@ library(devtools)
 
 # importing package from remote repository --------------------------------
 
-devtools::install_github("joao-svalencar/mapar", ref="main", force=TRUE) # calls package
+#devtools::install_github("joao-svalencar/mapar", ref="main", force=TRUE) # calls package
 library(mapar)
 # ?mapar
 
@@ -51,7 +51,6 @@ for(i in 1:length(units[[2]])) # exporting loop
 dev.off() #turns off graphical device.
 
 # Biotic Element outputs done.  -------------------------------------------
-# Open C_tets.R and load the linear models objects;
-# Open D_tets.R
+# Return to D_BioticElements.R for the test of the vicariance premisse two and following chisq tests
 
 # end ---------------------------------------------------------------------

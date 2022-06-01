@@ -37,3 +37,6 @@ ggsave("Fig 3_new.png",
        units = "mm",
        dpi = 300,
        )
+
+# end ---------------------------------------------------------------------
+# You completed all the analyses performed in the paper and have most files to recreate the maps and Fig. 3

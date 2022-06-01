@@ -1,0 +1,6 @@
+
+	Pearson's Chi-squared test
+
+data:  classes and wnBEs
+X-squared = 20, df = 16, p-value = 0.2202
+

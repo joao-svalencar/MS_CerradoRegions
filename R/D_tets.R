@@ -74,3 +74,5 @@ summary(mod2)
 capture.output(summary(mod2), file = here("outputs", "tests", "elevation_restricted.txt"))
 
 # Open S_boxplot.R --------------------------------------------------------
+
+# end ---------------------------------------------------------------------
