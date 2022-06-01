@@ -9,6 +9,7 @@ To access the `mapar` package mentioned below please visit: [![DOI](https://zeno
 If you have any doubt, please contact JP Vieira-Alencar at: joaopaulo.valencar@gmail.com
 
 ## The repository is organized as follow:
+  - MS_CerradoRegions.Rproj: R project for the reproductibility of the analyses;
   - R: 
     - C_tets.R: loading objects;
     - D_BioticElements.R: Biotic Elements Analyses. With tests for the first and second predictions of the vicariance model;
@@ -49,5 +50,3 @@ If you have any doubt, please contact JP Vieira-Alencar at: joaopaulo.valencar@g
       - elevation_restricted.txt: linear model summary of the fitting of species elevational records as a function of BEs (only restricted BEs dataset, created within scripts);
       - prabtest.rds: .rds file storing the result of the test (`prabtest`) of the first prediction of the vicariance model;
       - prabtest.txt: summary of the test (`prabtest`) of the first prediction of the vicariance model;
-
-
