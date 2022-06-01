@@ -17,8 +17,8 @@ If you have any doubt, please contact JP Vieira-Alencar at: joaopaulo.valencar@g
     - S_boxplot.R: Organizing data and creating Fig. 3 (elevation boxplot);
     - S_maps.R: Using the `mapar` function from package `mapar` to preview BEs outputs and export .shp files;
     - OBS: Start with script C_tets.R. Comments in the scripts indicates which script to open next;
-  
-  -data:
-  -outputs:
+
+  - data:
+  - outputs:
 
 
