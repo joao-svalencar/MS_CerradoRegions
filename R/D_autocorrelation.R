@@ -1,6 +1,3 @@
-install.packages("nlme")
-install.packages("ape")
-install.packages("MuMIn")
 library(nlme)
 library(ape)
 library(MuMIn)
@@ -10,6 +7,10 @@ library(tidyr)
 el_all <- read.csv(here("data", "cent_BEs_all.csv"), stringsAsFactors=FALSE)
 head(el_all)
 names(el_all) <- c("BEs", "longitude", "latitude", "elevation")
+
+el_cores <- read.csv(here::here("data", "cent_cores_rest.csv"), stringsAsFactors=FALSE)
+head(el_cores)
+names(el_cores) <- c("BEs", "longitude", "latitude", "elevation")
 
 el_all<-separate(el_all, BEs, into=c("BE-letter", "BEs"), sep=" ")
 
@@ -40,6 +41,7 @@ plot(semivario, smooth = TRUE, ylim=c(0,1.6))
 # com o Moran's -----------------------------------------------------------
 
 geo<-cbind(el_restricted$longitude, el_restricted$latitude)
+geo<-cbind(el_cores$longitude, el_cores$latitude)
 
 # Then, let us produce a distance matrix (Euclidean) using the longitude and latitude values.
 
@@ -50,8 +52,8 @@ diag(samples.dist.inv) <- 0
 samples.dist[1:10,1:10]
 samples.dist.inv[1:10,1:10]
 
-Moran.I(log(el_restricted$elevation), samples.dist.inv, alternative="greater")
-hist(log(el_restricted$elevation))
+Moran.I(log(el_cores$elevation), samples.dist.inv, alternative="greater")
+
 ?Moran.I
 
 summary(db_be$elevation)
