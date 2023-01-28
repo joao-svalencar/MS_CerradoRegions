@@ -41,7 +41,7 @@ length(new_recs[,1]) #new records added to the analysis = 9,416
 db_be <- merge(db_unique, list, by="species")
 head(db_be) #unique records, with elevation, BEs and list information
 
-db_be <- merge(db_unique, be, by="species") #add BEs info to dataframe
+db_be <- merge(db_be, be, by="species") #add BEs info to dataframe
 head(db_be)
 
 comp <- comp[, c(1, 14:15)]
@@ -55,7 +55,7 @@ str(db_be)
 db_be$BEs <- as.factor(db_be$BEs) #BEs into factors
 db_be$BEs <- relevel(db_be$BEs, "2") #BE 2 (widespread) as basal level
 
-summary(db_unique$elevation) #summary with unique records
+summary(db_be$elevation) #summary with unique records
 #Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 #0.0   376.0   611.0   624.6   861.0  2067.0 
 
