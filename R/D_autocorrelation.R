@@ -4,37 +4,46 @@ library(MuMIn)
 library(tidyr)
 
 
-el_all <- read.csv(here("data", "cent_BEs_all.csv"), stringsAsFactors=FALSE)
+el_all <- read.csv(here::here("data", "BD_endemics.csv"), stringsAsFactors=FALSE)
 head(el_all)
-names(el_all) <- c("BEs", "longitude", "latitude", "elevation")
 
-el_cores <- read.csv(here::here("data", "cent_cores_rest.csv"), stringsAsFactors=FALSE)
-head(el_cores)
-names(el_cores) <- c("BEs", "longitude", "latitude", "elevation")
+el_unique <- read.csv(here::here("data", "elevation_unique.csv"), stringsAsFactors=FALSE)
+head(el_unique)
+bd_unique <- read.csv(here::here("data", "BD_unique.csv"), stringsAsFactors=FALSE)
+head(bd_unique)
 
-el_all<-separate(el_all, BEs, into=c("BE-letter", "BEs"), sep=" ")
+el_unique <- cbind(el_unique, bd_unique)
+el_unique <- el_unique[,c(1,2,4,5)]
 
-comp[comp$range_be=="restricted",]
 comp.int <- comp[,c(1, 14,15)]
 
-el_all_class <- merge(el_all, comp.int, by="BEs")
-head(el_all_class)
+head(list)
+el_unique_be <- merge(el_unique, be, by="species")
+el_unique_be <- merge(el_unique_be, comp.int, by="BEs")
+head(el_unique_be)
 
-el_restricted <- el_all_class[el_all_class$range_be=="restricted",]
-unique(el_restricted$BEs)
-head(el_restricted)
 
-el_restricted$BEs <- as.factor(el_restricted$BEs) #BEs into factors
-el_all$BEs <- relevel(el_all$BEs, "BE 2") #BE 2 (widespread) as basal level
-str(el_restricted)
+el_unique_be$BEs <- as.factor(el_unique_be$BEs) #BEs into factors
+el_unique_be$BEs <- relevel(el_unique_be$BEs, "2") #BE 2 (widespread) as basal level
+str(el_unique_be)
 
-mod2 <- nlme::gls(elevation~BEs, data=el_restricted) #basal level is BE 2 the widespread BE
-summary(mod2)
+mod <- nlme::gls(elevation~BEs, data=el_unique_be) #basal level is BE 2 the widespread BE
+summary(mod)
 
-plot(elevation~BEs, data=el_restricted)
 
 semivario <- nlme::Variogram(mod2, form = ~longitude + latitude, resType = "normalized")
 plot(semivario, smooth = TRUE, ylim=c(0,1.6))
+
+
+mod.exp <- gls(elevation~BEs, data=el_unique_be, correlation = corExp(form = longitude + latitude, nugget=T), data = el_unique_be)
+
+gaussian.autocor <- gls( log(Bird_diversity + 1) ~ log(Tree_diversity + 1) , correlation = corGaus(form = ~Lon_x + Lat_y, nugget=T), data = bird.diversity )
+
+spherical.autocor <- gls( log(Bird_diversity + 1) ~ log(Tree_diversity + 1) , correlation = corSpher(form = ~Lon_x + Lat_y, nugget=T), data = bird.diversity )
+
+linear.autocor <- gls( log(Bird_diversity + 1) ~ log(Tree_diversity + 1) , correlation = corLin(form = ~Lon_x + Lat_y, nugget=T), data = bird.diversity )
+
+ratio.autocor <- gls( log(Bird_diversity + 1) ~ log(Tree_diversity + 1) , correlation = corRatio(form = ~Lon_x + Lat_y, nugget=T), data = bird.diversity )
 
 #this means that positive spatial autocorrelation explains a lot about variation in our data.
 
