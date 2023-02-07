@@ -67,11 +67,28 @@ mod1 <- lm(elevation~BEs, data=db_be) #basal level is BE 2 the widespread BE
 summary(mod1)
 capture.output(summary(mod1), file = here("outputs", "tests", "elevation_all.txt"))
 
+png(here("outputs", "tests","Diagnostics%02d.png"), width=6, height=6, units='in', res=300)
+plot(mod1, ask = FALSE)
+dev.off()
+
+png(here("outputs", "tests","ResidualsHist.png"), width=6, height=6, units='in', res=300)
+hist(mod1$residuals)
+dev.off()
+
 # mod2 - elevation_unique -------------------------------------------------
 
 mod2 <- lm(elevation~BEs, data=db_be[db_be$range_be=="restricted",]) #basal level is BE 1 the highest BE
 summary(mod2)
 capture.output(summary(mod2), file = here("outputs", "tests", "elevation_restricted.txt"))
+
+png(here("outputs", "tests","RestrictedDiagnostics%02d.png"), width=6, height=6, units='in', res=300)
+plot(mod2, ask = FALSE)
+dev.off()
+
+png(here("outputs", "tests","RestrictedResidualsHist.png"), width=6, height=6, units='in', res=300)
+hist(mod2$residuals)
+dev.off()
+
 
 # Open S_boxplot.R --------------------------------------------------------
 

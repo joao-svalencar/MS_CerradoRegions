@@ -14,8 +14,9 @@ head(bd_unique)
 
 el_unique <- cbind(el_unique, bd_unique)
 el_unique <- el_unique[,c(1,2,4,5)]
-
+head(el_unique)
 comp.int <- comp[,c(1, 14,15)]
+comp.int <- comp
 
 head(list)
 el_unique_be <- merge(el_unique, be, by="species")
@@ -35,7 +36,7 @@ semivario <- nlme::Variogram(mod2, form = ~longitude + latitude, resType = "norm
 plot(semivario, smooth = TRUE, ylim=c(0,1.6))
 
 
-mod.exp <- gls(elevation~BEs, data=el_unique_be, correlation = corExp(form = longitude + latitude, nugget=T), data = el_unique_be)
+mod.exp <- nlme::gls(elevation~BEs, data=el_unique_be, correlation = corExp(form = ~longitude + latitude, nugget=T))
 
 gaussian.autocor <- gls( log(Bird_diversity + 1) ~ log(Tree_diversity + 1) , correlation = corGaus(form = ~Lon_x + Lat_y, nugget=T), data = bird.diversity )
 
