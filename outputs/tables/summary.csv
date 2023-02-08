@@ -1,4 +1,5 @@
-﻿BEs,Total,Anurans,Repitilia,Lizards,Snakes,Birds,Mammals,groups,Area,quadrats,wide,partial,restricted,range_be,alt_class
+BEs,Total,Anurans,Repitilia,Lizards,Snakes,Birds,Mammals,groups,Area,quadrats,wide,partial,restricted,range_be,alt_class
+0,158,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,noise,noise
 1,39,21,9,6,3,5,4,5,280627,24,0,3,36,restricted,plateau
 2,17,3,2,0,2,11,1,4,2706500,229,14,3,0,wide,uncertain
 3,13,10,1,1,0,0,2,3,165633,14,0,0,13,restricted,plateau

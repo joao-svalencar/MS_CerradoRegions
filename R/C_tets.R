@@ -22,15 +22,3 @@ comp <- read.csv(here("outputs", "tables", "summary.csv"))
 
 # Open D_tets.R
 # end ---------------------------------------------------------------------
-
-
-db_unique <- read.csv(here("data", "BD_unique.csv"), stringsAsFactors=FALSE)
-
-db_be <- cbind(db_unique, db_unique_el)
-
-head(db_unique_el)
-head(db_be)
-
-db_be <- db_be[,c(1:3,5)]
-
-
