@@ -63,7 +63,8 @@ summary(db_be$elevation) #summary with unique records
 # Species elevation classification ----------------------------------------
 
 list$elev_class <- NA
-spp_krusk <- names(which(table(db_be$species)>5)) #selecting species with more than 5 records
+#spp_krusk <- names(which(table(db_be$species)>5)) #selecting species with more than 5 records
+spp_krusk <- list$species #selecting species with more than 5 records
 
 for(i in 1:length(spp_krusk))
 {  
@@ -97,14 +98,7 @@ for(i in 1:length(spp_krusk))
 table(list$elev_class)
 list
 
-sd(db_be$elevation[db_be$species==spp])-summary(db_be$elevation[db_be$species==spp])[2]
-
-sd(db_be$elevation[db_be$species==spp])-summary(db_be$elevation[db_be$species==spp])[5]
-
-summary(db_be$elevation[db_be$species==spp])[1]-summary(db_be$elevation[db_be$species==spp])[3]
-summary(db_be$elevation[db_be$species==spp])[5]-summary(db_be$elevation[db_be$species==spp])[3]
-
-summary(db_be$elevation[db_be$species==spp])
+write.csv(list, here("outputs", "tables", "fulllist.csv"), row.names = FALSE)
 
 # -------------------------------------------------------------------------
 
