@@ -23,9 +23,6 @@ head(list_be) #unique records, with elevation, BEs and list information
 db_be_full <- merge(db_full, list_be, by="species") # add list info
 head(db_be_full) #full database com list
 
-#db_be_full <- merge(db_be_full, be, by="species") # add be info
-#head(db_be_full) #full database com list and be info
-
 summary(db_be_full$elevation) #summary with full database (repeated elevation data for especimens from the same location)
 #Min. 1st Qu.  Median    Mean   3rd Qu.    Max. 
 #0     375      610      609.9   823      2067
@@ -48,17 +45,6 @@ length(new_recs[,1]) #new records added to the analysis = 9,416
 
 db_be <- merge(db_unique, list_be, by="species")
 head(db_be) #unique records, with elevation, BEs and list information
-
-#db_be <- merge(db_be, be, by="species") #add BEs info to dataframe
-#head(db_be)
-
-#comp <- comp[, c(1, 14:15)]
-#head(comp)
-
-#db_be <- merge(db_be, comp, by="BEs") #combine with info or BE range classification AND REMOVE NOISE COMPONENT SPECIES RECORDS
-#head(db_be)
-
-#str(db_be)
 
 db_be$BEs <- as.factor(db_be$BEs) #BEs into factors
 #db_be$BEs <- relevel(db_be$BEs, "2") #BE 2 (widespread) as basal level
@@ -98,8 +84,6 @@ for(i in 1:length(spp_krusk))
   #mtext(paste("p.value = ", kruskal$p.value), side=3)
 }
 
-table(list_be$elev_class)
-
 write.csv(list_be, here("outputs", "tables", "full.list.csv"), row.names = FALSE)
 
 # chi-square test for plateaus/depression class ---------------------------
@@ -107,47 +91,19 @@ write.csv(list_be, here("outputs", "tables", "full.list.csv"), row.names = FALSE
 set.seed(42)
 
 # with all species (including noise) --------------------------------------
+
 chisq <- prabclus::comp.test(list_be$elev_class, list_be$BEs)
 capture.output(chisq, file = here("outputs", "tests", "chisq_elev_all.txt"))
 
-
 # with all species (excluding noise) --------------------------------------
+
 chisq <- prabclus::comp.test(list_be$elev_class[list_be$BEs!=0], list_be$BEs[list_be$BEs!=0])
 capture.output(chisq, file = here("outputs", "tests", "chisq_elev_noNoise.txt"))
 
 # only with restricted BEs ------------------------------------------------
+
 chisq <- prabclus::comp.test(list_be$elev_class[list_be$range_be=="restricted"], list_be$BEs[list_be$range_be=="restricted"])
 capture.output(chisq, file = here("outputs", "tests", "chisq_elev_restricted.txt"))
-
-
-# linear models -----------------------------------------------------------
-# mod1 - elevation_full ---------------------------------------------------
-
-mod1 <- lm(elevation~BEs, data=db_be) #basal level is BE 2 the widespread BE
-summary(mod1)
-capture.output(summary(mod1), file = here("outputs", "tests", "elevation_all.txt"))
-
-png(here("outputs", "tests","Diagnostics%02d.png"), width=6, height=6, units='in', res=300)
-plot(mod1, ask = FALSE)
-dev.off()
-
-png(here("outputs", "tests","ResidualsHist.png"), width=6, height=6, units='in', res=300)
-hist(mod1$residuals)
-dev.off()
-
-# mod2 - elevation_unique -------------------------------------------------
-
-mod2 <- lm(elevation~BEs, data=db_be[db_be$range_be=="restricted",]) #basal level is BE 1 the highest BE
-summary(mod2)
-capture.output(summary(mod2), file = here("outputs", "tests", "elevation_restricted.txt"))
-
-png(here("outputs", "tests","RestrictedDiagnostics%02d.png"), width=6, height=6, units='in', res=300)
-plot(mod2, ask = FALSE)
-dev.off()
-
-png(here("outputs", "tests","RestrictedResidualsHist.png"), width=6, height=6, units='in', res=300)
-hist(mod2$residuals)
-dev.off()
 
 # Open S_boxplot.R --------------------------------------------------------
 
