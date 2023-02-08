@@ -84,20 +84,18 @@ for(i in 1:length(spp_krusk))
   
   class <- if(kruskal$p.value<0.05)
   {
-    if(tapply(k.test$el_ktest, k.test$group, median)[1]<tapply(k.test$el_ktest, k.test$group, median)[2])
-    {
-      "plateau"
-    }else("depression")
-  }else if(summary(db_be$elevation[db_be$species==spp])[2]>500)
-  {
-    "plateau"
-  }else if(summary(db_be$elevation[db_be$species==spp])[5]<500)
-  {
-    "depression"
-  }else("general")
+    if(summary(spp_el)[3]>summary(el_sample)[3])
+      {"plateau"}
+    else("depression")
+  }else if(summary(spp_el)[2]>summary(el_sample)[3])
+    {"plateau"}
+  else if(summary(spp_el)[5]<summary(el_sample)[3])
+    {"depression"}
+  else("general")
   
   list_be$elev_class[list_be$species==spp] <- class
   #boxplot(k.test$el_ktest~k.test$group, xlab=class, ylab="Elevation", main=spp)
+  #mtext(paste("p.value = ", kruskal$p.value), side=3)
 }
 
 table(list_be$elev_class)
