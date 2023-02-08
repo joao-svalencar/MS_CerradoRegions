@@ -13,7 +13,8 @@ s <- readOGR(dsn=here("data", "shapes"), layer="Cerrado") #study area shapefile
 
 # Open D_BioticElements.R -------------------------------------------------
 
-# For the linear model (elevation) ----------------------------------------
+# For general results; species elevation classification and test  ---------
+
 list <- read.csv(here("data", "list.csv"))
 db_full <- read.csv(here("data", "elevation_full.csv"), stringsAsFactors=FALSE)
 db_unique <- read.csv(here("data", "elevation_unique.csv"), stringsAsFactors=FALSE)
