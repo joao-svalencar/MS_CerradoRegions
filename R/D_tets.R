@@ -47,7 +47,6 @@ db_be <- merge(db_unique, list_be, by="species")
 head(db_be) #unique records, with elevation, BEs and list information
 
 db_be$BEs <- as.factor(db_be$BEs) #BEs into factors
-#db_be$BEs <- relevel(db_be$BEs, "2") #BE 2 (widespread) as basal level
 
 summary(db_be$elevation) #summary with unique records
 #Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -70,12 +69,12 @@ for(i in 1:length(spp_krusk))
   
   class <- if(kruskal$p.value<0.05)
   {
-    if(summary(spp_el)[3]>summary(el_sample)[3])
+    if(summary(spp_el)[3]>500)
       {"plateau"}
     else("depression")
-  }else if(summary(spp_el)[2]>summary(el_sample)[3])
+  }else if(summary(spp_el)[2]>500)
     {"plateau"}
-  else if(summary(spp_el)[5]<summary(el_sample)[3])
+  else if(summary(spp_el)[5]<500)
     {"depression"}
   else("general")
   
@@ -83,8 +82,6 @@ for(i in 1:length(spp_krusk))
   #boxplot(k.test$el_ktest~k.test$group, xlab=class, ylab="Elevation", main=spp)
   #mtext(paste("p.value = ", kruskal$p.value), side=3)
 }
-
-write.csv(list_be, here("outputs", "tables", "full.list.csv"), row.names = FALSE)
 
 # chi-square test for plateaus/depression class ---------------------------
 
@@ -105,6 +102,49 @@ capture.output(chisq, file = here("outputs", "tests", "chisq_elev_noNoise.txt"))
 chisq <- prabclus::comp.test(list_be$elev_class[list_be$range_be=="restricted"], list_be$BEs[list_be$range_be=="restricted"])
 capture.output(chisq, file = here("outputs", "tests", "chisq_elev_restricted.txt"))
 
+# Biotic Elements elevation classification --------------------------------
+
+list_be$BEs_elev_class <- NA
+be_krusk <- unique(list_be$BEs) #creating species list to loop
+
+for(i in 1:length(be_krusk))
+{  
+  be.k <- be_krusk[i] #creating object with species name
+  be_el <- db_be$elevation[db_be$BEs==be.k] #selecting the elevation values for a given species 'i'
+  el_sample <- sample(db_be$elevation, 1000, replace=FALSE) #sampling random elevation values from our database
+  be_el_ktest <- c(be_el, el_sample) #creating a vector combining a given species 'i' and the 1,000 random elevation values
+  group <- rep(c(be.k, "r.sample"), times=c(length(be_el), 1000)) #creating a vector to group the species records and the random elevation values
+  k.test <- data.frame(be_el_ktest, group) #creating a dataframe with elevation values and group categories
+  kruskal <- kruskal.test(be_el_ktest~group, data=k.test) #comparing species elevation values and random elevation values
+  
+  class <- if(kruskal$p.value<0.05)
+  {
+    if(summary(be_el)[3]>500)
+    {"plateau"}
+    else("depression")
+  }else if(summary(be_el)[2]>500)
+  {"plateau"}
+  else if(summary(be_el)[5]<500)
+  {"depression"}
+  else("general")
+  
+  list_be$BEs_elev_class[list_be$BEs==be.k] <- class
+  #boxplot(k.test$be_el_ktest~k.test$group, xlab=class, ylab="Elevation", main=paste("Biotic Element", be.k, sep=" "))
+  #mtext(paste("p.value = ", kruskal$p.value), side=3)
+}
+list_be[!duplicated(list_be$BEs), c(2, 3, 12)]
+head(list_be)
+
+write.csv(list_be, here("outputs", "tables", "full.list.csv"), row.names = FALSE)
+
+list_be_comp <- list_be[!duplicated(list_be$BEs), c(2,12)]
+comp.new <- merge(comp, list_be_comp, by="BEs")
+
+write.csv(comp.new, here("outputs", "tables", "summary.csv"), row.names = FALSE)
+
 # Open S_boxplot.R --------------------------------------------------------
 
 # end ---------------------------------------------------------------------
+
+
+
