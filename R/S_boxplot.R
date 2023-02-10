@@ -3,6 +3,8 @@ library(gridExtra)
 library(ggpattern)
 
 # boxplot graph -----------------------------------------------------------
+unique(db_be$BEs)
+db_be <- db_be[db_be$BEs!=0,]
 
 #Vetores com cores dos plots
 col_be <- c("grey","orange","purple","purple","purple","grey","green","blue","blue","red",
@@ -10,13 +12,13 @@ col_be <- c("grey","orange","purple","purple","purple","grey","green","blue","bl
 
 td <- ggplot(db_be) +
   geom_boxplot_pattern(
-    aes(x=BEs, y=elevation, pattern=alt_class), col=col_be,
+    aes(x=BEs, y=elevation, pattern=BEs_elev_class), col=col_be,
     pattern_density=0.2, pattern_colour= 'black', pattern_spacing=0.01, lwd=.3)+
   labs(x= "Biotic Elements", y= "Elevation (m)")+
-  scale_y_continuous(limits = c(0, 2000))+
-  scale_pattern_manual(values=c("none", "none", "circle"))+
+  scale_y_continuous(limits = c(0, 2100))+
+  scale_pattern_manual(values=c("none", "circle", "none"))+
   scale_x_discrete(limits=c("2","23","15","28","26","29","22","14","4","13","20","17","11","27","19", "10", "6","25","18","16","7","12","5","9","3","24","8","21","1"))+
-  geom_hline(yintercept = 592)+
+  geom_hline(yintercept = 500)+
   geom_vline(xintercept = 1.5, linetype=2)+
   geom_vline(xintercept = 10.5, linetype=2)+
   theme_classic()+

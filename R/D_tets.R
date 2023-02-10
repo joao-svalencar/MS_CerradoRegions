@@ -13,7 +13,7 @@ sum(sort(unique(db_unique$species))!=sort(unique(list$species))) ##checking for 
 
 # Merging species list with BEs information -------------------------------
 
-comp <- comp[, c(1, 15)]
+comp <- comp[, c(1, 15, 17)]
 be <- merge(be, comp, by= "BEs")
 list_be <- merge(be, list, by="species")
 head(list_be) #unique records, with elevation, BEs and list information
@@ -47,6 +47,7 @@ db_be <- merge(db_unique, list_be, by="species")
 head(db_be) #unique records, with elevation, BEs and list information
 
 db_be$BEs <- as.factor(db_be$BEs) #BEs into factors
+
 
 summary(db_be$elevation) #summary with unique records
 #Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -138,6 +139,7 @@ head(list_be)
 write.csv(list_be, here("outputs", "tables", "full.list.csv"), row.names = FALSE)
 
 list_be_comp <- list_be[!duplicated(list_be$BEs), c(2,12)]
+list_be_comp <- list_be[!duplicated(list_be$BEs),]
 comp.new <- merge(comp, list_be_comp, by="BEs")
 
 write.csv(comp.new, here("outputs", "tables", "summary.csv"), row.names = FALSE)
@@ -145,6 +147,3 @@ write.csv(comp.new, here("outputs", "tables", "summary.csv"), row.names = FALSE)
 # Open S_boxplot.R --------------------------------------------------------
 
 # end ---------------------------------------------------------------------
-
-
-
