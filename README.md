@@ -58,8 +58,8 @@ The provided code will automatically install the required packages, aligning the
       - summary.csv: file containing summarized BEs information (created manually ad hoc);
       - SuppInfo_S4_mpa.csv: file containing the presence x absence matrix (created within scripts);
     - tests:
+      - chisq_alt_sp.txt: chi-square summary for the test of the number of species from different tetrapod group to be aggregated in different elevational categories;
       - chisq_class_nc.txt: chi-square summary for the test of the aggregation of vertebrate classes in the noise component;
-      - chisq_class_wnBE.txt: chi-square summary for the test of the aggregation of vertebrate classes in the detected BEs (antagonic to the later);
       - chisq_elev_noNoise.txt: chi-square summary for the test of the aggregation of vertebrate classes in the two elevation categories (full dataset, created within scripts);
       - chisq_elev_restricted.txt: chi-square summary for the test of the aggregation of vertebrate classes in the two elevation categories (only restricted BEs dataset, created within scripts);
       - chisq_tet_genus.txt: chi-square summary for the test of the second prediction of the vicariance model;
