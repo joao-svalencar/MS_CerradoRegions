@@ -1,4 +1,4 @@
-# MS: A savanna puzzle: Elevation drives regionalization patterns of endemic terrestrial vertebrates in the Cerrado
+# MS: In search of generality: revised distribution data and regionalization of Cerrado endemic tetrapods
 
 **Researchers involved are: João Paulo dos Santos Vieira-Alencar, Ana Paula Carmignotto, Ricardo J. Sawaya, Luís Fábio Silveira, Paula Hanna Valdujo & Cristiano de Campos Nogueira**
 
@@ -42,11 +42,10 @@ If you have any doubt, please contact JP Vieira-Alencar at: joaopaulo.valencar@g
       - summary.csv: file containing summarized BEs information (created manually ad hoc);
       - SuppInfo_S4_mpa.csv: file containing the presence x absence matrix (created within scripts);
     - tests:
-      - chisq_alt_sp.txt: chi-square summary for the test of the aggregation of vertebrate classes in distinct elevation categories;
       - chisq_class_nc.txt: chi-square summary for the test of the aggregation of vertebrate classes in the noise component;
-      - chisq_class_wnBE.txt: chi-square summary for the test of the aggregation of vertebrate classes in the detectec BEs (antagonic to the later);
+      - chisq_class_wnBE.txt: chi-square summary for the test of the aggregation of vertebrate classes in the detected BEs (antagonic to the later);
+      - chisq_elev_noNoise.txt: chi-square summary for the test of the aggregation of vertebrate classes in the two elevation categories (full dataset, created within scripts);
+      - chisq_elev_restricted.txt: chi-square summary for the test of the aggregation of vertebrate classes in the two elevation categories (only restricted BEs dataset, created within scripts);
       - chisq_tet_genus.txt: chi-square summary for the test of the second prediction of the vicariance model;
-      - elevation_all.txt: linear model summary of the fitting of species elevational records as a function of BEs (full dataset, created within scripts);
-      - elevation_restricted.txt: linear model summary of the fitting of species elevational records as a function of BEs (only restricted BEs dataset, created within scripts);
       - prabtest.rds: .rds file storing the result of the test (`prabtest`) of the first prediction of the vicariance model;
       - prabtest.txt: summary of the test (`prabtest`) of the first prediction of the vicariance model;

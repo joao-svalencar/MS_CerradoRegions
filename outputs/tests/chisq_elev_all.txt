@@ -1,6 +1,0 @@
-
-	Pearson's Chi-squared test with simulated p-value (based on 10000 replicates)
-
-data:  cl and spg
-X-squared = 202.41, df = NA, p-value = 9.999e-05
-
