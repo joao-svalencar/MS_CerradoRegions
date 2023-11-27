@@ -4,9 +4,8 @@ library(devtools)
 
 # importing package from remote repository --------------------------------
 
-#devtools::install_github("joao-svalencar/mapar", ref="main", force=TRUE)
+devtools::install_github("joao-svalencar/mapar", ref="main", force=TRUE)
 library(mapar)
-# ?cdn
 
 # processing data: creating species list ----------------------------------
 

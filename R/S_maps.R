@@ -4,7 +4,7 @@ library(devtools)
 
 # importing package from remote repository --------------------------------
 
-#devtools::install_github("joao-svalencar/mapar", ref="main", force=TRUE) # calls package
+devtools::install_github("joao-svalencar/mapar", ref="main", force=TRUE) # calls package
 library(mapar)
 # ?mapar
 

@@ -133,7 +133,7 @@ for(i in 1:length(be_krusk))
 
 # showing each BE elevation class -----------------------------------------
 
-list_be[!duplicated(list_be$BEs), c(2, 3, 12)]
+list_be[!duplicated(list_be$BEs), c(2, 3, 4)]
 head(list_be)
 
 write.csv(list_be, here("outputs", "tables", "full.list.csv"), row.names = FALSE)
