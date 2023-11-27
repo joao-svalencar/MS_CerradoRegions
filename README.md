@@ -8,6 +8,21 @@ To access the `mapar` package mentioned below please visit: [![DOI](https://zeno
 
 If you have any doubt, please contact JP Vieira-Alencar at: joaopaulo.valencar@gmail.com
 
+## Analyses reproducibility
+
+This repository incorporates a package version management system facilitated by the `renv` package, ensuring the proper functionality of all functions utilized in the scripts. To leverage this functionality, execute the following code after initializing the Rproj file:
+
+````
+#Install the "renv" package
+install.packages("renv")
+
+#Restore versions of the utilized packages
+renv::restore()
+````
+
+*Important Note:!*
+The provided code will automatically install the required packages, aligning them with the same versions used during the preparation of the scripts. This ensures the reproducibility of the analyses.
+
 ## The repository is organized as follow:
   - MS_CerradoRegions.Rproj: R project for the reproductibility of the analyses;
   - R: 
