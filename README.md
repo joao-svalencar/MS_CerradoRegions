@@ -20,7 +20,8 @@ install.packages("renv")
 renv::restore()
 ````
 
-*Important Note:!*
+**Important Note:!**
+
 The provided code will automatically install the required packages, aligning them with the same versions used during the preparation of the scripts. This ensures the reproducibility of the analyses.
 
 ## The repository is organized as follow:
