@@ -18,21 +18,16 @@ be <- merge(be, comp, by= "BEs")
 list_be <- merge(be, list, by="species")
 head(list_be) #unique records, with elevation, BEs and list information
 
-# Merging and exploring elevation_full ------------------------------------
-
-db_be_full <- merge(db_full, list_be, by="species") # add list info
-head(db_be_full) #full database com list
-
-summary(db_be_full$elevation) #summary with full database (repeated elevation data for especimens from the same location)
-#Min. 1st Qu.  Median    Mean   3rd Qu.    Max. 
-#0     375      610      609.9   823      2067
+# Exploring list ---------------------------------------------------
 
 table(list$class) #number of species per class
 #Amphibians       Aves    Lizards    Mammals     Snakes 
 #124               45         66         42         63
 
-#increase in relation to Azevedo et al 2016 (216 species):
-340/216
+# Merging and exploring db_full ------------------------------------
+
+db_be_full <- merge(db_full, list_be, by="species") # add list info
+head(db_be_full) #full database with list
 
 table(db_be_full$class) #number of records per class
 #Amphibians         Aves      Lizards      Mammals       Snakes
@@ -41,7 +36,10 @@ table(db_be_full$class) #number of records per class
 new_recs <- db_be_full[db_be_full$New == "s",] 
 length(new_recs[,1]) #new records added to the analysis = 9,416
 
-# Merging and exploring elevation_unique ----------------------------------
+#increase in relation to Azevedo et al 2016 (216 species):
+340/216
+
+# Merging and exploring db_unique ----------------------------------
 
 db_be <- merge(db_unique, list_be, by="species")
 head(db_be) #unique records, with elevation, BEs and list information
@@ -57,6 +55,8 @@ summary(db_be$elevation) #summary with unique records
 
 list_be$elev_class <- NA
 spp_krusk <- list_be$species #creating species list to loop
+
+set.seed(42)
 
 for(i in 1:length(spp_krusk))
 {  
@@ -88,12 +88,7 @@ for(i in 1:length(spp_krusk))
 
 set.seed(42)
 
-# with all species (including noise) --------------------------------------
-
-chisq <- prabclus::comp.test(list_be$elev_class, list_be$BEs)
-capture.output(chisq, file = here("outputs", "tests", "chisq_elev_all.txt"))
-
-# with all species (excluding noise) --------------------------------------
+# with all species assigned to BEs ----------------------------------------
 
 chisq <- prabclus::comp.test(list_be$elev_class[list_be$BEs!=0], list_be$BEs[list_be$BEs!=0])
 capture.output(chisq, file = here("outputs", "tests", "chisq_elev_noNoise.txt"))
@@ -107,6 +102,8 @@ capture.output(chisq, file = here("outputs", "tests", "chisq_elev_restricted.txt
 
 list_be$BEs_elev_class <- NA
 be_krusk <- unique(list_be$BEs) #creating species list to loop
+
+set.seed(42)
 
 for(i in 1:length(be_krusk))
 {  
@@ -133,16 +130,13 @@ for(i in 1:length(be_krusk))
   #boxplot(k.test$be_el_ktest~k.test$group, xlab=class, ylab="Elevation", main=paste("Biotic Element", be.k, sep=" "))
   #mtext(paste("p.value = ", kruskal$p.value), side=3)
 }
+
+# showing each BE elevation class -----------------------------------------
+
 list_be[!duplicated(list_be$BEs), c(2, 3, 12)]
 head(list_be)
 
 write.csv(list_be, here("outputs", "tables", "full.list.csv"), row.names = FALSE)
-
-list_be_comp <- list_be[!duplicated(list_be$BEs), c(2,12)]
-list_be_comp <- list_be[!duplicated(list_be$BEs),]
-comp.new <- merge(comp, list_be_comp, by="BEs")
-
-write.csv(comp.new, here("outputs", "tables", "summary.csv"), row.names = FALSE)
 
 # Open S_boxplot.R --------------------------------------------------------
 

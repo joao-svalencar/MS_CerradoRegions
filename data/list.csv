@@ -246,7 +246,7 @@ Amphibians,Phyllomedusidae,Pithecopus,Pithecopus megacephalus,Restricted,1926,n,
 Amphibians,Phyllomedusidae,Pithecopus,Pithecopus oreades,Partial,2002,n,DD
 Lizards,Gymnophthalmidae,Placosoma,Placosoma cipoense,Restricted,1966,n,-
 Aves,Tyrannidae,Polystictus,Polystictus superciliaris,Partial,1831,s,LC
-Aves,Thraupidae,Poospiza,Poospiza cinerea,Partial,1850,s,LC
+Aves,Thraupidae,Poospiza,Microspingus cinereus,Partial,1850,s,LC
 Aves,Thraupidae,Porphyrospiza,Porphyrospiza caerulescens,Wide,1830,s,NT
 Amphibians,Craugastoridae,Pristimantis,Pristimantis dundeei,Partial,1999,n,DD
 Amphibians,Craugastoridae,Pristimantis,Pristimantis moa*,Restricted,2020,s,-
@@ -310,7 +310,7 @@ Lizards,Tropiduridae,Stenocercus,Stenocercus albolineatus*,Restricted,2015,s,-
 Lizards,Tropiduridae,Stenocercus,Stenocercus canastra*,Restricted,2019,s,-
 Lizards,Tropiduridae,Stenocercus,Stenocercus quinarius,Restricted,2006,n,LC
 Lizards,Tropiduridae,Stenocercus,Stenocercus sinesaccus,Partial,2005,n,LC
-Aves,Tyrannidae,Suiriri,Suiriri affinis,Partial,1856,s,NT
+Aves,Tyrannidae,Suiriri,Guyramemua affine,Partial,1856,s,NT
 Aves,Furnariidae,Synallaxis,Synallaxis simoni,Partial,1907,s,LC
 Aves,Furnariidae,Syndactyla,Syndactyla dimidiata,Partial,1859,s,LC
 Aves,Tinamidae,Taoniscus,Taoniscus nanus,Partial,1815,s,EN

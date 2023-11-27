@@ -77,7 +77,7 @@ a <- separate(data=BEs.no.noise, col="binomial", into=c("genus", "epithet"), sep
 
 # chi-square test for vicariance premisse number two ----------------------
 set.seed(42)
-chisq <- comp.test(a$genus.x, a$BEs)
+chisq <- comp.test(a$genus, a$BEs)
 capture.output(chisq, file = here("outputs", "tests", "chisq_tet_genus.txt"))
 
 # chi-square test for the assignment to BEs or to Noise Component ---------
